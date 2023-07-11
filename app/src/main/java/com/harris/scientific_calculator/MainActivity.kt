@@ -504,7 +504,7 @@ class MainActivity : AppCompatActivity() {
         }
         catch (e: IllegalArgumentException){
             result_display.text = null
-            showToast("Invalid Format: Mismatched Parenthesis")
+            showToast("Invalid Format")
         }
     }
 }

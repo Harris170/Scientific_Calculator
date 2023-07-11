@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import net.objecthunter.exp4j.ExpressionBuilder
 import net.objecthunter.exp4j.operator.Operator
+import java.lang.ArithmeticException
 import kotlin.math.roundToInt
 
 
@@ -483,17 +484,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun calculate(expression: String) {
-        if (input_display.text.isNotEmpty()) {
-            val result = ExpressionBuilder(expression).build().evaluate()
-            val long_result = result.toLong()
 
-            if(operator_check == 0){
-                result_display.text = null
+        try{
+            if (input_display.text.isNotEmpty()) {
+                val result = ExpressionBuilder(expression).build().evaluate()
+                val long_result = result.toLong()
+                if(operator_check == 0){
+                    result_display.text = null
+                }
+                else{
+                    if(result == long_result.toDouble()) result_display.text = Math.round(result.toDouble()).toString()
+                    else result_display.setText(result.toString())
+                }
             }
-            else{
-                if(result == long_result.toDouble()) result_display.text = Math.round(result.toDouble()).toString()
-                else result_display.setText(result.toString())
-            }
+        }
+        catch (e:ArithmeticException){
+            result_display.text = null
+            showToast("Invalid Format: Cannot divide by 0")
+        }
+        catch (e: IllegalArgumentException){
+            result_display.text = null
+            showToast("Invalid Format: Mismatched Parenthesis")
         }
     }
 }

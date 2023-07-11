@@ -4,8 +4,9 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorAccent">#de584d</item>
+        <item name="colorPrimaryDark">#D83F33</item>
     </style>
 
     <style name="Theme.Scientific_Calculator" parent="Base.Theme.Scientific_Calculator" />
-
+D
 </resources>

@@ -114,9 +114,9 @@ class MainActivity : AppCompatActivity() {
 
         button_subtract.setOnClickListener{
             if(input_display.text.isEmpty()) {
-                expression = input_display.text.toString() + "-("
+                expression = input_display.text.toString() + "-"
                 input_display.setText(expression)
-                bracket_check += 1
+                //operator_check += 1
                 resetCursorPosition()
             }
             else if (input_display.text.last() == '(') showToast("Invalid Format")
@@ -409,10 +409,16 @@ class MainActivity : AppCompatActivity() {
 
             if(input_display.text.isNotEmpty()){
                 val stringBuilder: StringBuilder = StringBuilder(input_display.text)
-                val expression = input_display.text.toString()
+                var expression = input_display.text.toString()
                 val last_char = expression.last()
 
-                if((last_char == '+') or (last_char == '-') or (last_char == '*') or (last_char == '/')){
+                if((last_char == 'y')){
+                    stringBuilder.clear()
+                }
+                else if(expression.startsWith('-')){
+                    stringBuilder.deleteCharAt(input_display.text.length-1)
+                }
+                else if((last_char == '+') or (last_char == '-') or (last_char == '*') or (last_char == '/')){
                     stringBuilder.deleteCharAt(input_display.text.length-1)
                     operator_check -= 1
                     edited_expression = stringBuilder.toString()
@@ -421,6 +427,10 @@ class MainActivity : AppCompatActivity() {
                 else if(last_char == ')'){
                     stringBuilder.deleteCharAt(input_display.text.length-1)
                     bracket_check += 1
+                }
+                else if(last_char == '('){
+                    stringBuilder.deleteCharAt(input_display.text.length-1)
+                    bracket_check -= 1
                 }
                 else if(last_char == '^'){
                     stringBuilder.deleteCharAt(input_display.text.length-1)
@@ -431,10 +441,9 @@ class MainActivity : AppCompatActivity() {
                     stringBuilder.deleteCharAt(input_display.text.length-2)
                     stringBuilder.deleteCharAt(input_display.text.length-3)
 
-                    bracket_check -= 1
                     if (bracket_check == 0) {
                         edited_expression = stringBuilder.toString()
-                        calculate(edited_expression)
+                        if (stringBuilder.toString().isNotEmpty()) calculate(edited_expression)
                     }
                 }
                 else if((last_char == 't')){
@@ -443,20 +452,20 @@ class MainActivity : AppCompatActivity() {
                     stringBuilder.deleteCharAt(input_display.text.length-3)
                     stringBuilder.deleteCharAt(input_display.text.length-4)
 
-                    bracket_check -= 1
                     if (bracket_check == 0) {
                         edited_expression = stringBuilder.toString()
-                        calculate(edited_expression)
+                        if (stringBuilder.toString().isNotEmpty()) calculate(edited_expression)
                     }
                 }
                 else{
                     stringBuilder.deleteCharAt(input_display.text.length-1)
                     operator_check += 1
                 }
-                if(stringBuilder.isEmpty()) result_display.text = ""
+                if(stringBuilder.isEmpty()) result_display.text = null
                 edited_expression = stringBuilder.toString()
                 input_display.setText(edited_expression)
             }
+
             else{
                 result_display.text = null
             }

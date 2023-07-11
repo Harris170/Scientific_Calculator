@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import net.objecthunter.exp4j.ExpressionBuilder
 import net.objecthunter.exp4j.operator.Operator
 import java.lang.ArithmeticException
+import java.util.EmptyStackException
 import kotlin.math.roundToInt
 
 
@@ -392,7 +393,6 @@ class MainActivity : AppCompatActivity() {
                 expression = input_display.text
                 if (bracket_check == 0) calculate(expression)
             }
-
             operator_check = -1
             bracket_check = 0
         }
@@ -505,6 +505,9 @@ class MainActivity : AppCompatActivity() {
         catch (e: IllegalArgumentException){
             result_display.text = null
             showToast("Invalid Format")
+        }
+        catch (e: EmptyStackException){
+            result_display.text = null
         }
     }
 }
